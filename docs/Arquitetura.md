@@ -12,8 +12,7 @@
 
 <h4>Este documento descreve a arquitetura geral do MVP Food Campus, um sistema destinado ao setor de comercio e venda de alimentos no entorno da UFRN. O Food Campus visa facilitar tanto a busca do estudante por alimentos, quanto propriciar aos ambulantes um ambiente centralizado e seguro para divulgar seus produtos. O sistema segue uma arquitetura cliente-servidor tradicional, com uma aplicação frontend que consome APIs REST fornecidas por um backend centralizado.</h4>
 
-### Tecnologias
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias
 
 ### 🖥️ Frontend
 
