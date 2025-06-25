@@ -1,21 +1,37 @@
-# Frontend:
-- Framework: React Next.Js
-- Gerenciamento de estado: Context API
-- Estilização: Tailwind CSS
-- Componentes UI: DaisyUI
+# 🧩 Arquitetura do sistema Food Campus
 
-Podemos fazer os dados mockado no front ou construir um backend + banco de dados.
+## 📚 Índice
 
-# Backend:
-- Linguagem: Node.js + TypeScript
-- Framework Web: Express.js
-- ORM: Prisma
+1. [Visão geral](#visao-geral) 
+2. [Tecnologias](#tecnologias)
+3. [Componentes](#componentes)
+4. [Diagrama](#diagrama)
+5. [Fluxo](#fluxo)
 
-# Banco de dados: 
-- MySQL
+### Visão geral
 
-# Autenticação e Autorização:
-- JWT (JSON Web Tokens) para autenticação.
+<h4>Este documento descreve a arquitetura geral do MVP Food Campus, um sistema destinado ao setor de comercio e venda de alimentos no entorno da UFRN. O Food Campus visa facilitar tanto a busca do estudante por alimentos, quanto propriciar aos ambulantes um ambiente centralizado e seguro para divulgar seus produtos. O sistema segue uma arquitetura cliente-servidor tradicional, com uma aplicação frontend que consome APIs REST fornecidas por um backend centralizado.</h4>
 
-# Infraestrutura e Implantação:
-- Plataforma de Deploy: Railway.
+### Tecnologias
+## 🛠️ Tecnologias Utilizadas
+
+### 🖥️ Frontend
+
+- **React.js** – Biblioteca para construção de interfaces SPA (Single Page Application)
+- **Next.js** – Framework web baseado na biblioteca React.js
+- **TypeScript** – Superset do JavaScript com tipagem estática
+- **Tailwind CSS** – Framework utilitário para estilização
+- **Shadcn UI** – Biblioteca de componentes UI
+- **Redux** – Gerenciamento de estado global (ex: autenticação)
+
+---
+
+### 🔧 Backend
+
+- **TypeScript** – Superset do JavaScript com tipagem estática
+- **Node.js** – Runtime para executar JavaScript no servidor
+- **Express.js** – Framework para criação de APIs REST
+- **Prisma ORM** – ORM para integração com banco de dados relacional
+- **MySQL** – Banco de dados relacional usado para persistência
+
+### 
