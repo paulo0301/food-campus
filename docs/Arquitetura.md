@@ -43,21 +43,21 @@ O Food Campus segue uma arquitetura **cliente-servidor** moderna, com separaçã
 
 | Tecnologia | Versão | Propósito |
 |------------|--------|-----------|
-| **Node.js** | 18.x | Runtime para executar JavaScript no servidor |
-| **Express.js** | 4.x | Framework para criação de APIs REST |
-| **TypeScript** | 5.x | Superset do JavaScript com tipagem estática |
-| **Prisma ORM** | 5.x | ORM para integração com banco de dados |
+| **Java** | 17 | Linguagem de programação principal |
+| **Spring Boot** | 3.5.3 | Framework para criação de APIs REST |
+| **Spring Data JPA** | 3.x | Abstração para acesso a dados |
+| **Spring Security** | 6.x | Autenticação e autorização |
 | **MySQL** | 8.x | Banco de dados relacional |
-| **JWT** | Latest | Autenticação e autorização |
-| **bcrypt** | 5.x | Criptografia de senhas |
+| **MapStruct** | 1.6.3 | Mapeamento entre objetos Java |
+| **Lombok** | Latest | Redução de boilerplate no código |
 
 ### 🗄️ Banco de Dados
 
 | Tecnologia | Versão | Propósito |
 |------------|--------|-----------|
 | **MySQL** | 8.x | Banco de dados principal |
-| **Prisma** | 5.x | ORM e migrations |
-| **Redis** | 7.x | Cache e sessões (futuro) |
+| **Spring Data JPA** | 3.x | ORM e gerenciamento de entidades |
+| **Hibernate** | 6.x | Implementação JPA (através do Spring Data) |
 
 ## 🧩 Componentes
 
@@ -81,18 +81,30 @@ src/
 └── utils/              # Utilitários
 ```
 
-### ⚙️ Backend (Express.js)
+### ⚙️ Backend (Spring Boot)
 
 ```
-src/
-├── controllers/        # Controladores das rotas
-├── services/          # Lógica de negócio
-├── models/            # Modelos de dados
-├── routes/            # Definição de rotas
-├── middleware/        # Middlewares customizados
-├── utils/             # Utilitários
-├── config/            # Configurações
-└── types/             # Definições TypeScript
+src/main/java/com/ps/foodcampus/
+├── adapters/              # Camada de adaptadores (portas de entrada e saída)
+│   ├── controller/        # Controladores REST (portas de entrada)
+│   ├── entity/            # Entidades JPA e DTOs
+│   │   ├── mapper/        # Mapeadores entre camadas
+│   │   ├── request/       # DTOs de requisição
+│   │   └── response/      # DTOs de resposta
+│   └── repository/        # Repositórios JPA (portas de saída)
+│       └── impl/          # Implementações dos repositórios
+├── application/           # Camada de aplicação (casos de uso)
+│   ├── exceptions/        # Exceções de negócio
+│   ├── usecase/           # Casos de uso e regras de negócio
+│   │   └── impl/          # Implementações dos casos de uso
+│   └── utils/             # Utilitários de validação
+├── domain/                # Camada de domínio (entidades e regras)
+│   ├── dto/               # DTOs de domínio
+│   ├── mapper/            # Mapeadores de domínio
+│   └── model/             # Modelos de domínio
+├── infra/                 # Camada de infraestrutura
+│   └── db/                # Configurações de banco de dados
+└── FoodcampusApplication.java # Classe principal Spring Boot
 ```
 
 ## 🏗️ Diagrama da Arquitetura
@@ -111,15 +123,15 @@ graph TB
     end
     
     subgraph "Backend (Railway)"
-        G[Express.js API]
+        G[Spring Boot API]
         H[Controllers]
-        I[Services]
-        J[Middleware]
+        I[Use Cases]
+        J[Spring Security]
     end
     
     subgraph "Banco de Dados"
         K[MySQL Database]
-        L[Prisma ORM]
+        L[Spring Data JPA]
     end
     
     subgraph "Serviços Externos"
@@ -169,34 +181,37 @@ Cliente → Frontend → Backend → Database
 
 ### 🏗️ Padrões de Arquitetura
 
-- **MVC (Model-View-Controller)**: Separação de responsabilidades
+- **Clean Architecture (Hexagonal)**: Separação clara de responsabilidades em camadas
+- **Dependency Inversion**: Dependências apontam para abstrações
 - **Repository Pattern**: Abstração do acesso a dados
-- **Service Layer**: Lógica de negócio centralizada
-- **Middleware Pattern**: Processamento de requisições
+- **Use Case Pattern**: Casos de uso isolados com regras de negócio
+- **DTO Pattern**: Transfer objects para comunicação entre camadas
 
 ### 📝 Padrões de Código
 
-- **Clean Code**: Código limpo e legível
-- **DRY (Don't Repeat Yourself)**: Evitar duplicação
 - **SOLID Principles**: Princípios de design orientado a objetos
-- **TypeScript**: Tipagem estática para maior segurança
+- **DRY (Don't Repeat Yourself)**: Evitar duplicação de código
+- **MapStruct**: Mapeamento automático entre objetos
+- **Lombok**: Redução de boilerplate com anotações
+- **Spring Boot Conventions**: Convenções do framework Spring
 
 ## 🔒 Segurança
 
 ### 🛡️ Medidas Implementadas
 
+- **Spring Security**: Framework de segurança robusto e configurável
 - **JWT Authentication**: Tokens seguros para autenticação
-- **Password Hashing**: Senhas criptografadas com bcrypt
+- **Password Hashing**: Senhas criptografadas com BCrypt (Spring Security)
 - **CORS**: Configuração adequada para requisições cross-origin
-- **Input Validation**: Validação de dados de entrada
-- **SQL Injection Protection**: Uso de ORM com prepared statements
+- **Input Validation**: Validação de dados com Bean Validation (JSR-303)
+- **SQL Injection Protection**: Uso de Spring Data JPA com prepared statements
 
 ### 🔐 Práticas de Segurança
 
 - **HTTPS**: Comunicação criptografada
 - **Environment Variables**: Configurações sensíveis em variáveis de ambiente
 - **Rate Limiting**: Proteção contra ataques de força bruta
-- **Input Sanitization**: Limpeza de dados de entrada
+- **Input Sanitization**: Limpeza de dados de entrada com Spring Security
 
 ## 🚀 Deploy e Infraestrutura
 
@@ -218,12 +233,16 @@ NEXT_PUBLIC_APP_URL=https://foodcampus.com
 ```
 
 #### Backend
-```bash
-# Variáveis de ambiente
-DATABASE_URL=mysql://user:pass@host:port/db
-JWT_SECRET=your-secret-key
-PORT=3001
-NODE_ENV=production
+```properties
+# Configuração do Spring Boot (application.properties)
+spring.application.name=foodcampus
+spring.datasource.url=jdbc:mysql://localhost:3306/foodcampus
+spring.datasource.username=root
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080
+jwt.secret=your-secret-key
 ```
 
 ### 📊 Monitoramento
@@ -239,19 +258,20 @@ NODE_ENV=production
 
 ### 🎯 Próximas Implementações
 
-- [ ] **Cache Layer**: Implementação de Redis para cache
-- [ ] **CDN**: Distribuição de conteúdo estático
-- [ ] **Microservices**: Separação em serviços menores
+- [ ] **Spring Security JWT**: Implementação completa de autenticação
+- [ ] **Swagger/OpenAPI**: Documentação automática da API
+- [ ] **Redis Cache**: Implementação de cache com Spring Cache
 - [ ] **Docker**: Containerização da aplicação
 - [ ] **CI/CD**: Pipeline automatizado de deploy
+- [ ] **Spring Boot Actuator**: Monitoramento e métricas
 
 ### 🔮 Melhorias Futuras
 
-- [ ] **WebSockets**: Comunicação em tempo real
+- [ ] **WebSockets**: Comunicação em tempo real com Spring WebSocket
 - [ ] **PWA**: Progressive Web App
 - [ ] **Mobile App**: Aplicativo nativo
-- [ ] **Analytics**: Métricas de uso
-- [ ] **A/B Testing**: Testes de usabilidade
+- [ ] **Spring Cloud**: Microserviços com Spring Cloud
+- [ ] **TestContainers**: Testes de integração com banco real
 
 ---
 
