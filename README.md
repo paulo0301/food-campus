@@ -44,19 +44,26 @@ O **Food Campus** é um sistema inovador destinado ao setor de comércio e venda
 ## 🛠️ Tecnologias
 
 ### Frontend
-- **React.js** - Biblioteca para construção de interfaces SPA
-- **Next.js** - Framework web baseado em React
-- **TypeScript** - Superset do JavaScript com tipagem estática
-- **Tailwind CSS** - Framework utilitário para estilização
-- **Shadcn UI** - Biblioteca de componentes UI
-- **Redux** - Gerenciamento de estado global
+- **Next.js 15.3.4** - Framework web baseado em React com App Router
+- **React 19** - Biblioteca para construção de interfaces SPA
+- **TypeScript 5** - Superset do JavaScript com tipagem estática
+- **Tailwind CSS 4.1.11** - Framework utilitário para estilização
+- **DaisyUI 5.0.46** - Biblioteca de componentes UI baseada em Tailwind
+- **Leaflet 1.9.4** - Biblioteca para mapas interativos
+- **React Leaflet 5.0.0** - Componentes React para Leaflet
+- **Lucide React 0.525.0** - Biblioteca de ícones
+- **NextAuth.js 5.0.0-beta.29** - Autenticação para Next.js
 
 ### Backend
-- **Node.js** - Runtime para executar JavaScript no servidor
-- **Express.js** - Framework para criação de APIs REST
-- **TypeScript** - Superset do JavaScript com tipagem estática
-- **Prisma ORM** - ORM para integração com banco de dados
+- **Java 17** - Linguagem de programação
+- **Spring Boot 3.5.3** - Framework para desenvolvimento de aplicações Java
+- **Spring Security** - Framework de segurança
+- **Spring Data JPA** - Persistência de dados
 - **MySQL** - Banco de dados relacional
+- **MapStruct 1.6.3** - Mapeamento de objetos
+- **Lombok** - Redução de código boilerplate
+- **JWT (Auth0)** - Autenticação baseada em tokens
+- **SpringDoc OpenAPI 2.5.0** - Documentação da API
 
 ## 🏗️ Arquitetura
 
@@ -65,7 +72,7 @@ O sistema segue uma arquitetura cliente-servidor tradicional:
 ```
 ┌─────────────────┐    HTTP/REST    ┌─────────────────┐
 │   Frontend      │ ◄──────────────► │    Backend      │
-│   (Next.js)     │                 │   (Express.js)  │
+│   (Next.js)     │                 │  (Spring Boot)  │
 └─────────────────┘                 └─────────────────┘
                                               │
                                               ▼
@@ -79,6 +86,7 @@ O sistema segue uma arquitetura cliente-servidor tradicional:
 ### Pré-requisitos
 - Node.js (versão 18 ou superior)
 - npm ou yarn
+- Java 17 ou superior
 - MySQL
 
 ### Frontend
@@ -100,17 +108,12 @@ npm run dev
 git clone https://github.com/vmedei/foodcampus_backend.git
 cd foodcampus_backend
 
-# Instale as dependências
-npm install
+# Execute com Gradle
+./gradlew bootRun
 
-# Configure as variáveis de ambiente
-cp .env.example .env
-
-# Execute as migrações do banco
-npx prisma migrate dev
-
-# Execute em modo de desenvolvimento
-npm run dev
+# Ou compile e execute
+./gradlew build
+java -jar build/libs/foodcampus-0.0.1-SNAPSHOT.jar
 ```
 
 ## 👥 Equipe
